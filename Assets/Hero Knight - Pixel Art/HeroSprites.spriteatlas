@@ -1,0 +1,296 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HeroSprites
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: e14e5185a32f9764587a60efb75130db, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300006, guid: 7fb51a422c4a36e40b71b06331a74b11, type: 3}
+  - {fileID: 21300004, guid: 7fb51a422c4a36e40b71b06331a74b11, type: 3}
+  - {fileID: 21300002, guid: 7fb51a422c4a36e40b71b06331a74b11, type: 3}
+  - {fileID: 21300000, guid: 7fb51a422c4a36e40b71b06331a74b11, type: 3}
+  - {fileID: 21300008, guid: 7fb51a422c4a36e40b71b06331a74b11, type: 3}
+  - {fileID: 21300138, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300136, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300036, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300122, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300038, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300120, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300126, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300124, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300028, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300130, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300030, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300128, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300032, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300134, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300034, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300132, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300020, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300022, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300024, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300026, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300010, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300008, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300014, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300012, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300002, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300006, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300004, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300018, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300016, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300100, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300102, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300104, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300064, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300106, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300086, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300066, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300108, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300084, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300060, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300110, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300082, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300062, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300050, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300112, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300080, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300152, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300072, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300048, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300114, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300094, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300154, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300074, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300054, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300174, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300116, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300092, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300148, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300068, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300052, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300172, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300118, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300090, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300150, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300070, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300042, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300170, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300088, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300144, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300040, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300168, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300146, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300046, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300166, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300140, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300076, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300044, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300164, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300098, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300142, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300078, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300162, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300096, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300160, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300058, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300056, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300156, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300158, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300178, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300176, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  - {fileID: 21300000, guid: 33dccf83b7f7f294992c97ebe1990464, type: 3}
+  - {fileID: 21300008, guid: a75445bb16444f14f96fdf9c734945cc, type: 3}
+  - {fileID: 21300002, guid: a75445bb16444f14f96fdf9c734945cc, type: 3}
+  - {fileID: 21300000, guid: a75445bb16444f14f96fdf9c734945cc, type: 3}
+  - {fileID: 21300006, guid: a75445bb16444f14f96fdf9c734945cc, type: 3}
+  - {fileID: 21300004, guid: a75445bb16444f14f96fdf9c734945cc, type: 3}
+  - {fileID: 21300000, guid: f094595c900579d4c85a02612d8fa36c, type: 3}
+  - {fileID: 21300002, guid: f094595c900579d4c85a02612d8fa36c, type: 3}
+  - {fileID: 21300004, guid: f094595c900579d4c85a02612d8fa36c, type: 3}
+  - {fileID: 21300006, guid: f094595c900579d4c85a02612d8fa36c, type: 3}
+  - {fileID: 21300008, guid: d94b5c1ffa7794547b59105c8f561da3, type: 3}
+  - {fileID: 21300002, guid: d94b5c1ffa7794547b59105c8f561da3, type: 3}
+  - {fileID: 21300000, guid: d94b5c1ffa7794547b59105c8f561da3, type: 3}
+  - {fileID: 21300006, guid: d94b5c1ffa7794547b59105c8f561da3, type: 3}
+  - {fileID: 21300004, guid: d94b5c1ffa7794547b59105c8f561da3, type: 3}
+  - {fileID: 21300018, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  - {fileID: 21300016, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  - {fileID: 21300014, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  - {fileID: 21300012, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  - {fileID: 21300010, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  - {fileID: 21300008, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  - {fileID: 21300006, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  - {fileID: 21300004, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  - {fileID: 21300002, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  - {fileID: 21300000, guid: 432e48af0c833ad4587d222b812b844f, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - SlideDust_3
+  - SlideDust_2
+  - SlideDust_1
+  - SlideDust_0
+  - SlideDust_4
+  - HeroKnight_69
+  - HeroKnight_68
+  - HeroKnight_18
+  - HeroKnight_61
+  - HeroKnight_19
+  - HeroKnight_60
+  - HeroKnight_63
+  - HeroKnight_62
+  - HeroKnight_14
+  - HeroKnight_65
+  - HeroKnight_15
+  - HeroKnight_64
+  - HeroKnight_16
+  - HeroKnight_67
+  - HeroKnight_17
+  - HeroKnight_66
+  - HeroKnight_10
+  - HeroKnight_11
+  - HeroKnight_12
+  - HeroKnight_13
+  - HeroKnight_5
+  - HeroKnight_4
+  - HeroKnight_7
+  - HeroKnight_6
+  - HeroKnight_1
+  - HeroKnight_0
+  - HeroKnight_3
+  - HeroKnight_2
+  - HeroKnight_9
+  - HeroKnight_8
+  - HeroKnight_50
+  - HeroKnight_51
+  - HeroKnight_52
+  - HeroKnight_32
+  - HeroKnight_53
+  - HeroKnight_43
+  - HeroKnight_33
+  - HeroKnight_54
+  - HeroKnight_42
+  - HeroKnight_30
+  - HeroKnight_55
+  - HeroKnight_41
+  - HeroKnight_31
+  - HeroKnight_25
+  - HeroKnight_56
+  - HeroKnight_40
+  - HeroKnight_76
+  - HeroKnight_36
+  - HeroKnight_24
+  - HeroKnight_57
+  - HeroKnight_47
+  - HeroKnight_77
+  - HeroKnight_37
+  - HeroKnight_27
+  - HeroKnight_87
+  - HeroKnight_58
+  - HeroKnight_46
+  - HeroKnight_74
+  - HeroKnight_34
+  - HeroKnight_26
+  - HeroKnight_86
+  - HeroKnight_59
+  - HeroKnight_45
+  - HeroKnight_75
+  - HeroKnight_35
+  - HeroKnight_21
+  - HeroKnight_85
+  - HeroKnight_44
+  - HeroKnight_72
+  - HeroKnight_20
+  - HeroKnight_84
+  - HeroKnight_73
+  - HeroKnight_23
+  - HeroKnight_83
+  - HeroKnight_70
+  - HeroKnight_38
+  - HeroKnight_22
+  - HeroKnight_82
+  - HeroKnight_49
+  - HeroKnight_71
+  - HeroKnight_39
+  - HeroKnight_81
+  - HeroKnight_48
+  - HeroKnight_80
+  - HeroKnight_29
+  - HeroKnight_28
+  - HeroKnight_78
+  - HeroKnight_79
+  - HeroKnight_89
+  - HeroKnight_88
+  - Background
+  - BlockFlash_4
+  - BlockFlash_1
+  - BlockFlash_0
+  - BlockFlash_3
+  - BlockFlash_2
+  - EnvironmentTiles_0
+  - EnvironmentTiles_1
+  - EnvironmentTiles_2
+  - EnvironmentTiles_3
+  - HeroKnight_BlockNoEffect_4
+  - HeroKnight_BlockNoEffect_1
+  - HeroKnight_BlockNoEffect_0
+  - HeroKnight_BlockNoEffect_3
+  - HeroKnight_BlockNoEffect_2
+  - HeroKnight_DeathNoBlood_9
+  - HeroKnight_DeathNoBlood_8
+  - HeroKnight_DeathNoBlood_7
+  - HeroKnight_DeathNoBlood_6
+  - HeroKnight_DeathNoBlood_5
+  - HeroKnight_DeathNoBlood_4
+  - HeroKnight_DeathNoBlood_3
+  - HeroKnight_DeathNoBlood_2
+  - HeroKnight_DeathNoBlood_1
+  - HeroKnight_DeathNoBlood_0
+  m_RenderDataMap: {}
+  m_Tag: HeroSprites
+  m_IsVariant: 0
