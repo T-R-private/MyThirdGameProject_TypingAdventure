@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private float powerUpTime;
     private int powerUpCount;
     [SerializeField]private float powerUpCountTime;
+    public Text powerUpTimeText;
      
 
     // ゲームコントローラーの取得
@@ -41,9 +42,9 @@ public class Player : MonoBehaviour
     public AudioClip powerUpSound;
 
     //  エフェクトの設定
-    public ParticleSystem recoverEffect;
-    public ParticleSystem perfectRecoverEffect;
-    public ParticleSystem powerUpEffect;
+    public GameObject recoverEffect;
+    public GameObject perfectRecoverEffect;
+    public GameObject powerUpEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +57,7 @@ public class Player : MonoBehaviour
         else
         {
             playerHp = maxHp;
+            isPowerUp = false;
         }
 
         // 自身のコンポーネントを取得
@@ -79,8 +81,9 @@ public class Player : MonoBehaviour
 
         if (isPowerUp)
         {
-            powerUpTime += Time.deltaTime;
-            if (powerUpTime >= powerUpCountTime)
+            powerUpTimeText.text = powerUpTime.ToString();
+            powerUpTime -= Time.deltaTime;
+            if (powerUpTime <= 0)
             {
                 playerAttackDamage = playerAttackDamage / 2.0f;
                 isPowerUp = false;
@@ -88,6 +91,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            powerUpTimeText.text = "";
             powerUpTime = 0.0f;
             powerUpCount = 0;
         }
@@ -137,39 +141,45 @@ public class Player : MonoBehaviour
             gameController.Battle();
             enemy = collision.gameObject;
             animator.SetInteger("AnimState", 0);
+            rb.velocity = new Vector2(0.0f, 0.0f);
         }
         else if (collision.gameObject.tag == "GoalPoint")
         {        
             gameController.GameClear();
             animator.SetInteger("AnimState", 0);
+            rb.velocity = new Vector2(0.0f, 0.0f);
         }
         else if (collision.gameObject.tag == "BranchPoint")
         {
             gameController.Branch();
             animator.SetInteger("AnimState", 0);
+            rb.velocity = new Vector2(0.0f, 0.0f);
         }
         else if (collision.gameObject.tag == "RecoveryItems")
         {
             Recovery(10.0f);
             collision.gameObject.SetActive(false);
             audioSource.PlayOneShot(recoverSound);
-            recoverEffect.Play();
+            //recoverEffect.Play();
+            //Instantiate(recoverEffect, this.transform.localPosition, Quaternion.identity, this.transform);
         }
         else if (collision.gameObject.tag == "PerfectRecovery")
         {
             Recovery(100.0f);
             audioSource.PlayOneShot(perfectRecoverSound);
-            perfectRecoverEffect.Play();
+            //perfectRecoverEffect.Play();
+            //Vector3 perfectRecoverPosition = new Vector3(this.transform.localPosition.x, 1.0f, this.transform.localPosition.z);
+            //Instantiate(perfectRecoverEffect, perfectRecoverPosition, Quaternion.identity, this.transform);
+
         }
         else if (collision.gameObject.tag == "PowerUpItems")
         {
             PowerUp(2.0f);
             collision.gameObject.SetActive(false);
             audioSource.PlayOneShot(powerUpSound);
-            powerUpEffect.Play();
+            //powerUpEffect.Play();
+            //Instantiate(powerUpEffect, this.transform.localPosition, Quaternion.identity, this.transform);
         }
-
-        rb.velocity = new Vector2(0.0f, 0.0f);
     }
 
     private void Attack()
@@ -219,6 +229,7 @@ public class Player : MonoBehaviour
         
         if (powerUpCount == 0)
         {
+            powerUpTime = powerUpCountTime;
             isPowerUp = true;
             playerAttackDamage = playerAttackDamage * power;
             powerUpCount++;
@@ -226,7 +237,7 @@ public class Player : MonoBehaviour
         else if (powerUpCount >= 1)
         {
             // 効果が続いている状態でPowerUpアイテムを取ったらPowerUpTimeを0にする
-            powerUpTime = 0.0f;
+            powerUpTime = powerUpCountTime;
         }
 
         

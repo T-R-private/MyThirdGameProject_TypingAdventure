@@ -11,7 +11,7 @@ public class TypingSoft : MonoBehaviour
 		                   "心理学", "成分", "犠牲", "評判", "特徴", "運命", "炎", "建築", "挨拶"};
 	//　問題のローマ字文
 	private string[] qR = { "monndai", "tesuto", "taipinngu", "gakkou", "byouinn", "kuukou", "kouzyou", "daigaku",
-		　　　　　　　　　　　"takaramono", "puroguraminngu", "keizaigaku", "toukeigaku", "doubutu", "kekkonn", "tanpakusitu",
+		　　　　　　　　　　　"takaramono", "puroguraminngu", "keizaigaku", "toukeigaku", "doubutu", "kekkonn", "tannpakusitu",
 		                 "sinnrigaku", "seibunn", "gisei", "hyoubann", "tokutyou", "unnmei", "honoo", "kenntiku", "aisatu"};
 	// 問題文の英語文
 	private string[] qE = { "question", "test", "typing", "school", "hospital", "airport", "factory", "university",

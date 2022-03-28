@@ -29,6 +29,8 @@ public class GameController : MonoBehaviour
     public GameObject branchtext;
     //  エンドレスモードのスコアテキストを取得
     public Text endlessModeScoreText;
+    //  PowerUpの時間を表示するテキスト
+    public Text powerUpCountText;
 
     //  バトルが始まったかどうか
     //public bool IsBattle;
