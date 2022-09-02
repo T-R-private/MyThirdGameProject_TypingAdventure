@@ -11,6 +11,7 @@ TagManager:
   - RecoveryItems
   - PerfectRecovery
   - PowerUpItems
+  - BossBattlePoint
   layers:
   - Default
   - TransparentFX

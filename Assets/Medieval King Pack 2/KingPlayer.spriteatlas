@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: KingPlayer
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 16d8449acf73f8146b39adfcb83b519e, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: -7500690451134026123, guid: a0175151646ae1b458b1bb6f1c6d1c94, type: 3}
+  - {fileID: -889859373511162655, guid: a0175151646ae1b458b1bb6f1c6d1c94, type: 3}
+  - {fileID: -3088938797480143695, guid: a0175151646ae1b458b1bb6f1c6d1c94, type: 3}
+  - {fileID: -9206091644520726168, guid: a0175151646ae1b458b1bb6f1c6d1c94, type: 3}
+  - {fileID: -2069157278089061004, guid: 18c272d27b28a784083dec9dbfbfa466, type: 3}
+  - {fileID: -5966621866309598838, guid: 18c272d27b28a784083dec9dbfbfa466, type: 3}
+  - {fileID: 8676454946275842879, guid: b41abf840d9ea3741a347d9f69137138, type: 3}
+  - {fileID: -4440497016933152808, guid: b41abf840d9ea3741a347d9f69137138, type: 3}
+  - {fileID: -2217414122262695004, guid: b41abf840d9ea3741a347d9f69137138, type: 3}
+  - {fileID: 2833043080597125133, guid: b41abf840d9ea3741a347d9f69137138, type: 3}
+  - {fileID: 5304202850863732263, guid: b41abf840d9ea3741a347d9f69137138, type: 3}
+  - {fileID: 8284087734974297348, guid: b41abf840d9ea3741a347d9f69137138, type: 3}
+  - {fileID: -2274363484027164459, guid: b41abf840d9ea3741a347d9f69137138, type: 3}
+  - {fileID: 4944230376442633554, guid: b41abf840d9ea3741a347d9f69137138, type: 3}
+  - {fileID: 7460046300004610927, guid: 0a9460c5d02da8e46a486b489e357b89, type: 3}
+  - {fileID: 7034338576483803127, guid: 0a9460c5d02da8e46a486b489e357b89, type: 3}
+  - {fileID: -7957278214813060823, guid: a69f9e788982b8746a34ef183bb4aacf, type: 3}
+  - {fileID: 6934013284892070054, guid: a69f9e788982b8746a34ef183bb4aacf, type: 3}
+  - {fileID: 4976274401295337057, guid: a69f9e788982b8746a34ef183bb4aacf, type: 3}
+  - {fileID: 1409549213185883415, guid: a69f9e788982b8746a34ef183bb4aacf, type: 3}
+  - {fileID: 7264182050183361747, guid: 0e3502a80399d164ea01f1868f65acbf, type: 3}
+  - {fileID: -2834552850196481573, guid: 0e3502a80399d164ea01f1868f65acbf, type: 3}
+  - {fileID: 3278449094680734212, guid: 0e3502a80399d164ea01f1868f65acbf, type: 3}
+  - {fileID: 3384493420599841878, guid: 0e3502a80399d164ea01f1868f65acbf, type: 3}
+  - {fileID: 4723107735738678597, guid: 0e3502a80399d164ea01f1868f65acbf, type: 3}
+  - {fileID: -7385789195546760866, guid: 0e3502a80399d164ea01f1868f65acbf, type: 3}
+  - {fileID: 3234629978573100161, guid: 0e3502a80399d164ea01f1868f65acbf, type: 3}
+  - {fileID: 6373048116405451881, guid: 0e3502a80399d164ea01f1868f65acbf, type: 3}
+  - {fileID: -7146689698409757683, guid: 6e2b860b2cf2adc4788f1feb7233fefa, type: 3}
+  - {fileID: 8523606802079886837, guid: 6e2b860b2cf2adc4788f1feb7233fefa, type: 3}
+  - {fileID: -8008791250619013794, guid: 6e2b860b2cf2adc4788f1feb7233fefa, type: 3}
+  - {fileID: 3891156215361153934, guid: 6e2b860b2cf2adc4788f1feb7233fefa, type: 3}
+  - {fileID: -4825729793490337222, guid: 54ec4f0cdd3de40498e6a8dc361b8953, type: 3}
+  - {fileID: 4769638531270534136, guid: 54ec4f0cdd3de40498e6a8dc361b8953, type: 3}
+  - {fileID: -6048392498854522608, guid: 54ec4f0cdd3de40498e6a8dc361b8953, type: 3}
+  - {fileID: -3236675104909177313, guid: 54ec4f0cdd3de40498e6a8dc361b8953, type: 3}
+  - {fileID: -1891625820773287384, guid: 11dfc7ac31d5c7847968009983536a96, type: 3}
+  - {fileID: -5789737788129074030, guid: 11dfc7ac31d5c7847968009983536a96, type: 3}
+  - {fileID: 3156895337291164288, guid: 11dfc7ac31d5c7847968009983536a96, type: 3}
+  - {fileID: 1400002288684528572, guid: 11dfc7ac31d5c7847968009983536a96, type: 3}
+  - {fileID: 6991849013916550155, guid: 11dfc7ac31d5c7847968009983536a96, type: 3}
+  - {fileID: -276728812324164698, guid: 11dfc7ac31d5c7847968009983536a96, type: 3}
+  - {fileID: 4668938655123782945, guid: 426f724d7a0489b48be59c8e9125a9b4, type: 3}
+  - {fileID: 5683539909772271658, guid: 426f724d7a0489b48be59c8e9125a9b4, type: 3}
+  - {fileID: 7441861488978599509, guid: 426f724d7a0489b48be59c8e9125a9b4, type: 3}
+  - {fileID: 8288915215451595207, guid: 426f724d7a0489b48be59c8e9125a9b4, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Take Hit_0
+  - Take Hit_1
+  - Take Hit_2
+  - Take Hit_3
+  - Fall_1
+  - Fall_0
+  - Run_7
+  - Run_6
+  - Run_5
+  - Run_4
+  - Run_3
+  - Run_2
+  - Run_1
+  - Run_0
+  - Jump_0
+  - Jump_1
+  - Attack1_1
+  - Attack1_0
+  - Attack1_3
+  - Attack1_2
+  - Idle_4
+  - Idle_5
+  - Idle_6
+  - Idle_7
+  - Idle_0
+  - Idle_1
+  - Idle_2
+  - Idle_3
+  - Take Hit - white silhouette_2
+  - Take Hit - white silhouette_3
+  - Take Hit - white silhouette_0
+  - Take Hit - white silhouette_1
+  - Attack3_3
+  - Attack3_2
+  - Attack3_1
+  - Attack3_0
+  - Death_4
+  - Death_5
+  - Death_2
+  - Death_3
+  - Death_0
+  - Death_1
+  - Attack2_2
+  - Attack2_3
+  - Attack2_0
+  - Attack2_1
+  m_RenderDataMap: {}
+  m_Tag: KingPlayer
+  m_IsVariant: 0

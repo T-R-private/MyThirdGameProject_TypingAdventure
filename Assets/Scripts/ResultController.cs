@@ -13,14 +13,19 @@ public class ResultController : MonoBehaviour
     public Text rankText;
     public GameObject backButton;
     public GameObject rankingButton;
+    public GameObject twitterButton;
 
     private float rankData;
     private char rankAlphabet;
 
+    // GameManagerの省略のための変数
+    GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (GameManager.instance.isEndlessMode)
+        gameManager = GameManager.instance;
+        if (gameManager.isEndlessMode)
         {
             StartCoroutine("EndlessScore");
         }
@@ -31,28 +36,15 @@ public class ResultController : MonoBehaviour
         
         backButton.SetActive(false);
         rankingButton.SetActive(false);
+        twitterButton.SetActive(false);
     }
 
     IEnumerator Rank()
     {
         // ランクを計算
-        rankData = GameManager.instance.correctAR + GameManager.instance.playerRemainingHp;
-        if (rankData >= 150)
-        {
-            rankAlphabet = 'S';
-        }
-        else if (rankData >= 120)
-        {
-            rankAlphabet = 'A';
-        }
-        else if (rankData >= 90)
-        {
-            rankAlphabet = 'B';
-        }
-        else
-        {
-            rankAlphabet = 'C';
-        }
+        rankData = gameManager.correctAR + gameManager.playerRemainingHp;
+
+        rankAlphabet = CalcResult(rankData);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -66,25 +58,46 @@ public class ResultController : MonoBehaviour
         Result();
     }
 
+    private char CalcResult(float rankData)
+    {
+        if (rankData >= 150)
+        {
+            return 'S';
+        }
+        else if (rankData >= 120)
+        {
+            return 'A';
+        }
+        else if (rankData >= 90)
+        {
+            return 'B';
+        }
+        else
+        {
+            return 'C';
+        }
+    }
+
     IEnumerator EndlessScore()
     {
         yield return new WaitForSeconds(0.5f);
 
         // スコアの表示
-        rankText.text = "Score : " + GameManager.instance.endlessModeScore;
+        rankText.text = "Score : " + gameManager.endlessModeScore;
 
         yield return new WaitForSeconds(0.5f);
 
         // 結果とボタンの表示
         backButton.SetActive(true);
         rankingButton.SetActive(true);
+        twitterButton.SetActive(true);
         Result();
     }
 
     void Result()
     {
-        correctN_Text.text = GameManager.instance.correctN.ToString();
-        mistakeN_Text.text = GameManager.instance.mistakeN.ToString();
-        correctAR_Text.text = GameManager.instance.correctAR.ToString() + "%";
+        correctN_Text.text = gameManager.correctN.ToString();
+        mistakeN_Text.text = gameManager.mistakeN.ToString();
+        correctAR_Text.text = gameManager.correctAR.ToString() + "%";
     }
 }

@@ -46,6 +46,7 @@ public class PlayerStatusController : MonoBehaviour
 
     }
 
+    // AdventureModeの時のみ
     //  EP取得処理
     public void GetEp(float getEp)
     {

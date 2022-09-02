@@ -8,8 +8,6 @@ public class SettingButton : MonoBehaviour
 {
     //  Pause画面を取得
     public GameObject PauseScreen;
-    //　ゲームコントローラーの取得
-    public GameController gameController;
 
     public void OnPauseClicked()
     {
@@ -19,12 +17,14 @@ public class SettingButton : MonoBehaviour
 
     public void OnPauceBackClicked()
     {
+        SoundManager.instance.PlaySE(8);
         Time.timeScale = 1;
         PauseScreen.SetActive(false);
     }
 
     public void OnPauceStopClicked()
     {
+        SoundManager.instance.PlaySE(8);
         // モードをリセット
         GameManager.instance.isEndlessMode = false;
         GameManager.instance.isAdventure = false;
@@ -32,8 +32,8 @@ public class SettingButton : MonoBehaviour
         Time.timeScale = 1;
 
         // BGMを止める
-        gameController.audios[0].Stop();
-        gameController.audios[1].Stop();
+        SoundManager.instance.StopFieldBGM();
+        SoundManager.instance.StopBattleBGM();
 
         SceneManager.LoadScene("StageSelectScene");
     }

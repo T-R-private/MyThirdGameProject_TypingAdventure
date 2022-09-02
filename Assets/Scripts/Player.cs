@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
+    // PlayerModelを取得
+    PlayerModel playerModel;
     // 自身のコンポーネントの変数
     private Rigidbody2D rb;
     private Animator animator;
-    private AudioSource audioSource;
     private string[] attackAnim = { "Attack1", "Attack2", "Attack3" };
 
     // プレイヤーが動いているか
@@ -19,6 +21,7 @@ public class Player : MonoBehaviour
     [SerializeField] float playerAttackDamage;
     public float playerHp;
     [SerializeField] private float maxHp;
+    public bool isDead;
 
     // プレイヤーがパワーアイテムを取った時のイベントの変数
     private bool isPowerUp;
@@ -32,62 +35,51 @@ public class Player : MonoBehaviour
     public GameController gameController;
     //  HPバーの取得
     public Image hpBar;
-    //エネミーを取得
+    // エネミーを取得
     private GameObject enemy;
-
-    //  効果音の設定
-    public AudioClip attackSound;
-    public AudioClip recoverSound;
-    public AudioClip perfectRecoverSound;
-    public AudioClip powerUpSound;
+    // 倒されたときに画面を揺らすためのカメラ
+    [SerializeField] private Transform playerDeadPanel;
 
     //  エフェクトの設定
-    public GameObject recoverEffect;
+    /*public GameObject recoverEffect;
     public GameObject perfectRecoverEffect;
-    public GameObject powerUpEffect;
+    public GameObject powerUpEffect;*/
 
     // Start is called before the first frame update
     void Start()
     {
-        if (GameManager.instance.isAdventure)
-        {
-            playerHp = PlayerStatusController.instance.playerHp;
-            playerAttackDamage = PlayerStatusController.instance.playerAttackDamage;
-        }
-        else
-        {
-            playerHp = maxHp;
-            isPowerUp = false;
-        }
+        playerHp = maxHp;
+        isPowerUp = false;
 
         // 自身のコンポーネントを取得
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
-        animator.SetBool("Grounded", true);
+        playerModel = new PlayerModel();
         
+        animator.SetBool("Grounded", true);
+        isDead = false;
     }
 
     private void Update()
+    { 
+        PowerUpShowText(isPowerUp);
+        hpBar.fillAmount = playerHp * 0.01f;
+
+    }
+
+    // パワーアップアイテムを取った時のテキスト処理
+    private void PowerUpShowText(bool powerUp)
     {
-        
-        /*if (PlayerStatusController.instance.isLevelUp)
-        {
-            maxHp = PlayerStatusController.instance.playerHp;
-            playerAttackDamage = PlayerStatusController.instance.playerAttackDamage;
-
-            PlayerStatusController.instance.isLevelUp = false;
-        }*/
-
-        if (isPowerUp)
+        if (powerUp)
         {
             powerUpTimeText.text = powerUpTime.ToString();
             powerUpTime -= Time.deltaTime;
             if (powerUpTime <= 0)
             {
                 playerAttackDamage = playerAttackDamage / 2.0f;
-                isPowerUp = false;
+                this.isPowerUp = false;
             }
+
         }
         else
         {
@@ -95,10 +87,8 @@ public class Player : MonoBehaviour
             powerUpTime = 0.0f;
             powerUpCount = 0;
         }
-
-        hpBar.fillAmount = playerHp * 0.01f;
-
     }
+
     private void FixedUpdate()
     {
         if (playerMove && GameManager.instance.isAdventure)
@@ -133,84 +123,100 @@ public class Player : MonoBehaviour
         }        
     }
 
+    // プレイヤーを停止させる
+    private void StopPlayer()
+    {
+        animator.SetInteger("AnimState", 0);
+        rb.velocity = new Vector2(0.0f, 0.0f);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "BattlePoint")
-        { 
-            gameController.Battle();
-            enemy = collision.gameObject;
-            animator.SetInteger("AnimState", 0);
-            rb.velocity = new Vector2(0.0f, 0.0f);
-        }
-        else if (collision.gameObject.tag == "GoalPoint")
-        {        
-            gameController.GameClear();
-            animator.SetInteger("AnimState", 0);
-            rb.velocity = new Vector2(0.0f, 0.0f);
-        }
-        else if (collision.gameObject.tag == "BranchPoint")
+        switch (collision.gameObject.tag)
         {
-            gameController.Branch();
-            animator.SetInteger("AnimState", 0);
-            rb.velocity = new Vector2(0.0f, 0.0f);
+            case "BattlePoint":
+                BattleMove(collision.gameObject);
+                break;
+            case "BossBattlePoint":
+                BattleMove(collision.gameObject);
+                break;
+            case "GoalPoint":
+                gameController.GameClear();
+                StopPlayer();
+                break;
+            case "BranchPoint":
+                gameController.Branch();
+                enemy = collision.gameObject;
+                StopPlayer();
+                break;
+            case "RecoveryItems":
+                Recovery(10.0f);
+                collision.gameObject.SetActive(false);
+                SoundManager.instance.PlaySE(1);
+                break;
+            case "PerfectRecovery":
+                Recovery(100.0f);
+                SoundManager.instance.PlaySE(2);
+                break;
+            case "PowerUpItems":
+                PowerUp(2.0f);
+                collision.gameObject.SetActive(false);
+                SoundManager.instance.PlaySE(3);
+                break;
         }
-        else if (collision.gameObject.tag == "RecoveryItems")
-        {
-            Recovery(10.0f);
-            collision.gameObject.SetActive(false);
-            audioSource.PlayOneShot(recoverSound);
-            //recoverEffect.Play();
-            //Instantiate(recoverEffect, this.transform.localPosition, Quaternion.identity, this.transform);
-        }
-        else if (collision.gameObject.tag == "PerfectRecovery")
-        {
-            Recovery(100.0f);
-            audioSource.PlayOneShot(perfectRecoverSound);
-            //perfectRecoverEffect.Play();
-            //Vector3 perfectRecoverPosition = new Vector3(this.transform.localPosition.x, 1.0f, this.transform.localPosition.z);
-            //Instantiate(perfectRecoverEffect, perfectRecoverPosition, Quaternion.identity, this.transform);
-
-        }
-        else if (collision.gameObject.tag == "PowerUpItems")
-        {
-            PowerUp(2.0f);
-            collision.gameObject.SetActive(false);
-            audioSource.PlayOneShot(powerUpSound);
-            //powerUpEffect.Play();
-            //Instantiate(powerUpEffect, this.transform.localPosition, Quaternion.identity, this.transform);
-        }
+        
     }
 
-    private void Attack()
+    private void BattleMove(GameObject collision)
     {
+        gameController.Battle(collision.gameObject.tag);
+        enemy = collision.gameObject;
+        StopPlayer();
+    }
+
+    public void Attack()
+    {
+        // 死んだ後に攻撃させないため
+        if (isDead) return;
+
         // 攻撃モーションをランダムに変化
         int rnd = Random.Range(0, 2);
         animator.SetTrigger(attackAnim[rnd]);
 
-        audioSource.PlayOneShot(attackSound);
+        //audioSource.PlayOneShot(attackSound);
+        SoundManager.instance.PlaySE(0);
         enemy.SendMessage("EnemyDamage", playerAttackDamage);
     }
 
     public void PlayerDamage(int enemyAttackPoint)
     {
-        playerHp -= enemyAttackPoint;
-        animator.SetTrigger("Hurt");
+        playerHp -= enemyAttackPoint;       
         if (playerHp <= 0)
         {
-            animator.SetTrigger("Death");
-            Invoke("Dead", 1.0f);
+            isDead = true;
+            StartCoroutine(Dead());
+        }
+        else
+        {
+            animator.SetTrigger("Hurt");
         }
     }
 
-    private void Dead()
+    private IEnumerator Dead()
     {
-        gameController.GameOver();
-        Invoke("Stop", 0.5f);
-    }
+        // ヒットストップ
+        SoundManager.instance.PlaySE(10);
+        animator.speed = 0.4f;
+        animator.SetTrigger("Death");
+        playerDeadPanel.DOShakePosition(0.50f, 0.3f, 10, 10);
 
-    private void Stop()
-    {
+        // ヒットストップ演出待ちの時間
+        yield return new WaitForSeconds(0.8f);
+
+        animator.speed = 1;     
+        yield return new WaitForSeconds(0.5f);
+        gameController.GameOver();
+        yield return new WaitForSeconds(1.0f);
         this.gameObject.SetActive(false);
     }
 
@@ -220,13 +226,12 @@ public class Player : MonoBehaviour
         if (playerHp >= maxHp)
         {
             playerHp = maxHp;
-        }
-       
+        }      
     }
 
+    // パワーアップアイテムを取った時の効果
     private void PowerUp(float power)
-    {
-        
+    {      
         if (powerUpCount == 0)
         {
             powerUpTime = powerUpCountTime;
@@ -238,8 +243,6 @@ public class Player : MonoBehaviour
         {
             // 効果が続いている状態でPowerUpアイテムを取ったらPowerUpTimeを0にする
             powerUpTime = powerUpCountTime;
-        }
-
-        
+        }   
     }
 }

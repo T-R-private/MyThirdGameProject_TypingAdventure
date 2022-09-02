@@ -6,58 +6,60 @@ using UnityEngine.SceneManagement;
 
 public class Button : MonoBehaviour
 {
+    // 省略のための変数
+    GameManager gameManager;
 
-    public void OnTitleButtonClicked()
+    private void Start()
     {
-        SceneManager.LoadScene("StageSelectScene");
+        gameManager = GameManager.instance;
     }
 
-    public void OnStageSelectButtonClicked(int number)
+    public void OnSceneTransitionButtonClicked(string sceneName)
     {
         GameManager.instance.isAdventure = false;
-        switch (number)
-        {
-            case 0:
-                SceneManager.LoadScene("SampleScene");
-               break;
-            case 1:
-                SceneManager.LoadScene("Sample2");
-               break;
-            case 2:
-                SceneManager.LoadScene("Sample3");
+        SoundManager.instance.PlaySE(8);
+        switch (sceneName)
+        {                
+            case "SampleScene":
+                FadeIOManager.instance.FadeOutToIn(() => Load("SampleScene"));
                 break;
-                
+            case "Sample2":
+                FadeIOManager.instance.FadeOutToIn(() => Load("Sample2"));
+                break;
+            case "Sample3":
+                FadeIOManager.instance.FadeOutToIn(() => Load("Sample3"));
+                break;
+            case "StageSelectScene":
+                gameManager.isEndlessMode = false;
+                FadeIOManager.instance.FadeOutToIn(() => Load("StageSelectScene"));
+                break;
+            case "ResultScene":
+                FadeIOManager.instance.FadeOutToIn(() => Load("ResultScene"));
+                break;
+            case "EndlessMode":
+                gameManager.isEndlessMode = true;
+                gameManager.endlessModeScore = 0;
+                FadeIOManager.instance.FadeOutToIn(() => Load("EndlessMode"));
+                break;
+            
         }
     }
 
-    public void OnBackButtonClicked()
+    public void Load(string sceneName)
     {
-        GameManager.instance.isAdventure = false;
-        GameManager.instance.isEndlessMode = false;
-        SceneManager.LoadScene("StageSelectScene");
+        SceneManager.LoadScene(sceneName);
     }
-
-    public void OnNextButtonClicked()
-    {
-        GameManager.instance.isAdventure = false;
-        SceneManager.LoadScene("ResultScene");
-    }
-
-    public void OnEndlessModeButtonClicked()
-    {
-        GameManager.instance.isEndlessMode = true;
-        GameManager.instance.endlessModeScore = 0;
-        SceneManager.LoadScene("EndlessMode");
-    }
-
+    
+    // アドベンチャーモード
     public void OnAdventureModeButtonClicked()
     {
-        GameManager.instance.isAdventure = true;
+        gameManager.isAdventure = true;
         //SceneManager.LoadScene();
     }
-
+    
+    // ランキング登録
     public void OnRankingRegister()
     {
-        naichilab.RankingLoader.Instance.SendScoreAndShowRanking(GameManager.instance.endlessModeScore, 0);
+        naichilab.RankingLoader.Instance.SendScoreAndShowRanking(gameManager.endlessModeScore, 0);
     }
 }

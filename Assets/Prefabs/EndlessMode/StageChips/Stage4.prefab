@@ -314,6 +314,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 7164527169880595580, guid: 4396b533a20964e2f9e21acaf9665e4f, type: 3}
+      propertyPath: m_TagString
+      value: BossBattlePoint
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4396b533a20964e2f9e21acaf9665e4f, type: 3}
 --- !u!4 &6508146541174294010 stripped
