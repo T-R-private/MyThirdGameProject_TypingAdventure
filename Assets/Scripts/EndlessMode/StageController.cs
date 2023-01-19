@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* EndlessModeのステージ生成を行うスクリプト */
 public class StageController : MonoBehaviour
 {
     [SerializeField] int stageSize;
@@ -9,6 +10,8 @@ public class StageController : MonoBehaviour
     int currentChipIndex;
 
     [SerializeField] Transform player;
+    [SerializeField] Transform kingPlayer;
+    [SerializeField] Transform wizzardPlayer;
     [SerializeField] GameObject[] stageChips;
     //  自動生成開始インデックス
     [SerializeField] public int startChipIndex;
@@ -24,15 +27,31 @@ public class StageController : MonoBehaviour
 
     private void Update()
     {
-        //  キャラクターの位置から現在のステージチップのインデックスを計算
-        int playerPositionIndex = (int)(player.position.x / stageSize);
-
+        int playerPositionIndex = CalcStageChipIndex(GameManager.instance.playerType);
         //  次のステージチップに入ったら更新処理を行う
         if (playerPositionIndex + preInstantiate > currentChipIndex)
         {
             UpdateStage(playerPositionIndex + preInstantiate);
         }
+    }
 
+    private int CalcStageChipIndex(GameManager.PlayerType playerType)
+    {
+        switch (playerType)
+        {
+            case GameManager.PlayerType.KNIGHT:
+                //  キャラクターの位置から現在のステージチップのインデックスを計算
+                return (int)(player.position.x / stageSize);
+            case GameManager.PlayerType.KINGPLAYER:
+                //  キャラクターの位置から現在のステージチップのインデックスを計算
+                return (int)(kingPlayer.position.x / stageSize);
+            case GameManager.PlayerType.WIZZARDPLAYER:
+                //  キャラクターの位置から現在のステージチップのインデックスを計算
+                return (int)(wizzardPlayer.position.x / stageSize);
+            default:
+                // エラー処理
+                return 0;
+        }
     }
 
     //  指定のIndexまでのステージチップを生成して、管理下に置く

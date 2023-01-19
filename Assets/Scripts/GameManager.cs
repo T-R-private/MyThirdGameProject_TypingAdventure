@@ -12,14 +12,15 @@ public class GameManager : MonoBehaviour
     public bool isEnglish;
 
     // Playerの判別
-    public enum PlayerType
+    public  enum PlayerType
     {
-        PLAYER,
+        KNIGHT,
         KINGPLAYER,
+        WIZZARDPLAYER,
     }
     public PlayerType playerType;
 
-    // gameRank
+    // gameRankに関する変数
     public int gameRank = 1;
     public int currentGameRankExp = 0;
     public int prevRank;
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
     //  アドベンチャーモードの設定
     public bool isAdventure;
 
-    //  バトルが始まったかどうか
+    //  バトルの状態かどうか
     public bool isBattle;
     //  敵を倒したかどうか
     public bool isEnemyDead;
@@ -41,8 +42,8 @@ public class GameManager : MonoBehaviour
     public int endlessModeScore = 0;
 
     //  結果の保持
-    public int correctN;
-    public int mistakeN;
+    public int   correctN;
+    public int   mistakeN;
     public float correctAR;
     public float playerRemainingHp;
 
@@ -53,11 +54,11 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    // そのシーンを読み込んだ直後に作動する関数
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log(scene.name + " scene loaded");
@@ -100,26 +102,33 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-
+    /// <summary>
+    /// gameLankの経験値を加算。倒したenemyのHPを加算する経験値とし、引数に設定する
+    /// </summary>
+    /// <param name="gameRankPoint"></param>
     public void gameRankExpAdd(int gameRankPoint)
     {
         currentGameRankExp += gameRankPoint;
     }
 
+    /// <summary>
+    /// endlessModeでのスコアを加点。倒したenemyのHPを加算するスコアとし、引数に設定する
+    /// </summary>
+    /// <param name="point"></param>
     public void endlessModeScoreAdd(int point)
     {
         endlessModeScore += point;
     }
 
+    // GameLankが上がっているかを調べる関数
     private void CheckGameRankUp()
     {
         prevRank = gameRank;
-        if(gameRank == 0)
-        {
-            return;
-        }
+        // gameLankが0(エラー)の場合実行しない
+        if (gameRank == 0)　return;
         // 必要なExp
         int necessaryPoint = gameRank * 100;
+        // 複数ランクアップを考慮して繰り返し計算
         while (currentGameRankExp >= necessaryPoint)
         {
             GameRankUp();

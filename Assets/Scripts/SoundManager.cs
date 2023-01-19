@@ -23,13 +23,16 @@ public class SoundManager : MonoBehaviour
     }
     // シングルトンの終わり
 
-    public AudioSource[] audioSource; // BattleBGM[0], FieldBGM[1], SE[2]のスピーカー
+    public AudioSource[] audioSource; 　　　　// BattleBGM[0], FieldBGM[1], SE[2]のスピーカー
     public AudioClip[] audioClipsBattleBGM; //BattleBGMの素材(必ず先頭からBGM再生)
     public AudioClip[] audioClipsFieldBGM; //FieldBGMの素材(途中からBGM再生可)
 
     public AudioClip[] audioClipsSE;  //SEの素材(0:)
-   
-    // BattleBGMの設定
+
+    /// <summary>
+    /// BattleBGMの再生処理
+    /// </summary>
+    /// <param name="name"> 通常戦闘曲:Battle, ボス戦闘曲:BossBattle</param>
     public void PlayBattleBGM(string name)
     {
         PauseFieldBGM();
@@ -52,6 +55,12 @@ public class SoundManager : MonoBehaviour
      * フィールドのBGMは途中から再生したい
      * AudioSource_2が必要
      */
+    /// <summary>
+    /// FieldBGMの再生処理
+    /// </summary>
+    /// <param name="name">
+    /// 初級-上級:NormalStage, EndlessMode:EndlessMode, EndlessMode(Score>=1000):EndlessMode2
+    /// </param>
     public void PlayFieldBGM(string name)
     {
         StopBattleBGM();
@@ -92,6 +101,9 @@ public class SoundManager : MonoBehaviour
     }
 
     // n番目のSEを一回ならす
+    /// <summary>
+    /// SEを鳴らす処理   * 引数情報はSoundManagerのInspecter参照
+    /// </summary>
     public void PlaySE(int index)
     {
         if (index >= audioClipsSE.Length)

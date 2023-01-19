@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerModel
 {
-  
+
     // プレイヤーが動いているか
-    public bool playerMove = false;
+    public bool playerMove;
 
     // プレイヤーのステータス
     public float playerSpeed;
@@ -26,10 +26,11 @@ public class PlayerModel
         playerHp = maxHp;
         isPowerUp = false;
         isDead = false;
+        playerMove = false;
     }
 
     // パワーアップアイテムを取った時の効果
-    private void PowerUp(float power)
+    public void PowerUp(float power)
     {
         if (powerUpCount == 0)
         {
@@ -45,7 +46,7 @@ public class PlayerModel
         }
     }
 
-    private void Recovery(float recoveryHp)
+    public void Recovery(float recoveryHp)
     {
         playerHp += recoveryHp;
         if (playerHp >= maxHp)

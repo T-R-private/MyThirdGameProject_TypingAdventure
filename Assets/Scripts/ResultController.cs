@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/* Result画面の制御を行うスクリプト */
 public class ResultController : MonoBehaviour
 {
     // UIを取得
@@ -15,9 +16,6 @@ public class ResultController : MonoBehaviour
     public GameObject rankingButton;
     public GameObject twitterButton;
 
-    private float rankData;
-    private char rankAlphabet;
-
     // GameManagerの省略のための変数
     GameManager gameManager;
 
@@ -25,13 +23,14 @@ public class ResultController : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.instance;
+        // EndlessModeかそれ以外で表示する結果の内容を変える
         if (gameManager.isEndlessMode)
         {
-            StartCoroutine("EndlessScore");
+            StartCoroutine("ShowResultEndlessMode");
         }
         else
         {
-            StartCoroutine("Rank");
+            StartCoroutine("ShowResult");
         }
         
         backButton.SetActive(false);
@@ -39,12 +38,13 @@ public class ResultController : MonoBehaviour
         twitterButton.SetActive(false);
     }
 
-    IEnumerator Rank()
+    IEnumerator ShowResult()
     {
-        // ランクを計算
-        rankData = gameManager.correctAR + gameManager.playerRemainingHp;
+        // ランクデータを計算
+        float rankData = gameManager.correctAR + gameManager.playerRemainingHp;
 
-        rankAlphabet = CalcResult(rankData);
+        // アルファベットを取得
+        char rankAlphabet = CalcResultLank(rankData);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -55,30 +55,18 @@ public class ResultController : MonoBehaviour
 
         // 結果とボタンの表示
         backButton.SetActive(true);
-        Result();
+        ShowResultData();
     }
 
-    private char CalcResult(float rankData)
+    private char CalcResultLank(float rankData)
     {
-        if (rankData >= 150)
-        {
-            return 'S';
-        }
-        else if (rankData >= 120)
-        {
-            return 'A';
-        }
-        else if (rankData >= 90)
-        {
-            return 'B';
-        }
-        else
-        {
-            return 'C';
-        }
+        if      (rankData >= 150)       return 'S';
+        else if (rankData >= 120)       return 'A';
+        else if (rankData >= 90)        return 'B';
+        else                            return 'C';
     }
 
-    IEnumerator EndlessScore()
+    IEnumerator ShowResultEndlessMode()
     {
         yield return new WaitForSeconds(0.5f);
 
@@ -91,10 +79,10 @@ public class ResultController : MonoBehaviour
         backButton.SetActive(true);
         rankingButton.SetActive(true);
         twitterButton.SetActive(true);
-        Result();
+        ShowResultData();
     }
 
-    void Result()
+    void ShowResultData()
     {
         correctN_Text.text = gameManager.correctN.ToString();
         mistakeN_Text.text = gameManager.mistakeN.ToString();

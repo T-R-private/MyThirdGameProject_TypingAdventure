@@ -25,7 +25,9 @@ public class FadeIOManager : MonoBehaviour
     //時間設定
     public float fadeTime = 2f;
 
-    //暗くする
+    /// <summary>
+    /// 画面暗転のアニメーション処理
+    /// </summary>
     public void FadeOut()
     {
         canvasGroup.blocksRaycasts = true;
@@ -33,7 +35,9 @@ public class FadeIOManager : MonoBehaviour
             .OnComplete(() => canvasGroup.blocksRaycasts = false);
     }
 
-    //明るくする
+    /// <summary>
+    /// 画面明転のアニメーション処理
+    /// </summary>
     public void FadeIn()
     {
         canvasGroup.blocksRaycasts = true;
@@ -41,7 +45,9 @@ public class FadeIOManager : MonoBehaviour
              .OnComplete(() => canvasGroup.blocksRaycasts = false);
     }
 
-    // 暗くして明るくする
+    /// <summary>
+    /// 画面暗転から明転のアニメーション処理
+    /// </summary>
     public void FadeOutToIn(TweenCallback action)
     {
         canvasGroup.blocksRaycasts = true;

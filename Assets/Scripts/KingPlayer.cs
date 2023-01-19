@@ -4,39 +4,39 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-/*ChargePlayerのスクリプト*/
+/* Kingに関するStatusや戦闘システム、イベント処理などを記述するクラス */
 public class KingPlayer : MonoBehaviour
 {
     // 自身のコンポーネントの変数
-    private Rigidbody2D rb;
     private Animator animator;
     private string[] attackAnim = { "Attack1", "Attack2", "Attack3" };
-
-    // プレイヤーが動いているか
-    public bool playerMove = false;
+    private AudioSource audioSource;
+    private PlayerMoveController playerMoveController;
 
     // プレイヤーのステータス
     public float playerHp;
-    [SerializeField] private float maxHp;
-    [SerializeField] private float playerSpeed;
-    public bool isDead;
+    public float maxHp;
+    public bool  isDead;
     /*
      * Chargeした分のAttackDamage追加
      * Chargeする制限時間
      */
     public float chargeAttackDamage;
     [SerializeField] Image chargeAttackDamageBar;
+    [SerializeField] Image chargeTimeBar;
     [SerializeField] float chargeTime;
-    [SerializeField] Text  chargeTimeText;
-    
+    [SerializeField] float chargeCountTime;
 
-    // プレイヤーがパワーアイテムを取った時のイベントの変数
+    // プレイヤーがパワーアイテムを取った時のフラグ
     private bool isPowerUp;
+    // パワーアップの秒数
     private float powerUpTime;
-    private int powerUpCount;
-    [SerializeField]private float powerUpCountTime;
+    // パワーアップの倍率
+    [SerializeField] private float powerUpValue;
+    // パワーアップの設定時間
+    [SerializeField] private float powerUpCountTime;
     public Text powerUpTimeText;
-     
+
 
     // ゲームコントローラーの取得
     public GameController gameController;
@@ -45,26 +45,46 @@ public class KingPlayer : MonoBehaviour
     // エネミーを取得
     private GameObject enemy;
     // 倒されたときに画面を揺らすためのカメラ
-    [SerializeField] private Transform playerDeadPanel;
+    [SerializeField] private Transform transformCamera;
 
     void Start()
     {
         // 初期化処理
-        playerHp = maxHp;
+        playerHp  = maxHp;
         isPowerUp = false;
-        isDead = false;
-        chargeTime = 0f;
+        isDead    = false;
+        chargeAttackDamageBar.fillAmount = 0;
+
         // 自身のコンポーネントを取得
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animator    = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+        playerMoveController = GetComponent<PlayerMoveController>();
         animator.SetBool("Grounded", true);
 
     }
 
     private void Update()
     {
+        if (GameManager.instance.isBattle)
+        {
+            if (isDead) return;
+            chargeCountTime += Time.deltaTime;
+            chargeTimeBar.fillAmount = chargeCountTime / chargeTime;
+            if (chargeCountTime >= chargeTime)
+            {
+                chargeCountTime = 0.0f;
+                ChargeAttack();
+            }
+        }
+        else
+        {
+            chargeCountTime = 0.0f;
+            chargeTimeBar.fillAmount = chargeCountTime / chargeTime;
+            audioSource.Stop();
+        }
+
         PowerUpShowText(isPowerUp);
-        hpBar.fillAmount = playerHp * 0.01f;
+        hpBar.fillAmount = playerHp / maxHp;
     }
 
     // パワーアップアイテムを取った時のテキスト処理
@@ -74,61 +94,17 @@ public class KingPlayer : MonoBehaviour
         {
             powerUpTimeText.text = powerUpTime.ToString();
             powerUpTime -= Time.deltaTime;
-            if (powerUpTime <= 0)
-            {
-                chargeAttackDamage = chargeAttackDamage / 2.0f;
-                this.isPowerUp = false;
-            }
+            if (powerUpTime <= 0) this.isPowerUp = false;
         }
-        else
+        else if (GameManager.instance.isEndlessMode && !powerUp)
         {
             powerUpTimeText.text = "";
             powerUpTime = 0.0f;
-            powerUpCount = 0;
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (playerMove && GameManager.instance.isAdventure)
-        {
-            float horizontalKey = Input.GetAxis("Horizontal");
-            float xSpeed = 0.0f;
-
-            if (horizontalKey > 0)
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-                animator.SetInteger("AnimState", 1);
-                xSpeed = playerSpeed;
-            }
-            else if (horizontalKey < 0)
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-                animator.SetInteger("AnimState", 1);
-                xSpeed = -playerSpeed;
-            }
-            else
-            {
-                animator.SetInteger("AnimState", 0);
-                xSpeed = 0.0f;
-            }
-            rb.velocity = new Vector2(xSpeed, 0.0f);
-
-        }
-        else if (playerMove)
-        {
-            animator.SetInteger("AnimState", 1);
-            rb.velocity = new Vector2(playerSpeed, 0.0f);
-        }        
-    }
-
-    // プレイヤーを停止させる
-    private void StopPlayer()
-    {
-        animator.SetInteger("AnimState", 0);
-        rb.velocity = new Vector2(0.0f, 0.0f);
-    }
-
+    // 別クラスへの移行は現在未定
+    // 現状、GameControllerと結合度が強いため、別クラスへの移行すると複雑化してしまう
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.gameObject.tag)
@@ -141,12 +117,7 @@ public class KingPlayer : MonoBehaviour
                 break;
             case "GoalPoint":
                 gameController.GameClear();
-                StopPlayer();
-                break;
-            case "BranchPoint":
-                gameController.Branch();
-                enemy = collision.gameObject;
-                StopPlayer();
+                playerMoveController.StopPlayer();
                 break;
             case "RecoveryItems":
                 Recovery(10.0f);
@@ -158,7 +129,7 @@ public class KingPlayer : MonoBehaviour
                 SoundManager.instance.PlaySE(2);
                 break;
             case "PowerUpItems":
-                PowerUp(2.0f);
+                PowerUp();
                 collision.gameObject.SetActive(false);
                 SoundManager.instance.PlaySE(3);
                 break;
@@ -171,30 +142,77 @@ public class KingPlayer : MonoBehaviour
     {
         gameController.Battle(collision.gameObject.tag);
         enemy = collision.gameObject;
-        StopPlayer();
+        playerMoveController.StopPlayer();
+        audioSource.Play();
     }
 
     /*変更点　ChargeAttack仕様に変更*/
     public void ChargeAttack()
     {
         // 死んだ後に攻撃させないため
-        if (isDead) return;
+        if (isDead || !GameManager.instance.isBattle) return;
+        audioSource.Play();
 
         // 攻撃モーションをランダムに変化
         int rnd = Random.Range(0, 2);
         animator.SetTrigger(attackAnim[rnd]);
 
-        //audioSource.PlayOneShot(attackSound);
-        SoundManager.instance.PlaySE(0);
+        SoundManager.instance.PlaySE(10);
         enemy.SendMessage("EnemyDamage", chargeAttackDamage);
+
+        // ChargePowerをリセットする
+        ResetChargeAttackDamage();
+    }
+
+    /* chargeAttackDamageの増減メソッド*/
+    /// <summary>
+    /// KingのCharge攻撃を増加するメソッド
+    /// </summary>
+    public void IncrementChargeAttackDamage()
+    {
+        if (isPowerUp)
+        {
+            chargeAttackDamage += 2 * powerUpValue;
+        }
+        else
+        {
+            chargeAttackDamage += 2;
+        }
+        chargeAttackDamageBar.fillAmount = chargeAttackDamage / 100.0f;
+    }
+
+    /// <summary>
+    /// KingのCharge攻撃を減少するメソッド
+    /// </summary>
+    public void DecrementChargeAttackDamage()
+    {
+        chargeAttackDamage -= 4;
+        if (chargeAttackDamage < 0)
+        {
+            chargeAttackDamage = 0;
+        }
+        chargeAttackDamageBar.fillAmount = chargeAttackDamage / 100.0f;
+    }
+
+    /// <summary>
+    /// KingのCharge攻撃を初期化するメソッド
+    /// </summary>
+    public void ResetChargeAttackDamage()
+    {
+        chargeAttackDamage = 0;
+        chargeAttackDamageBar.fillAmount = chargeAttackDamage / 100.0f;
     }
 
     public void PlayerDamage(int enemyAttackPoint)
     {
+        // 死んだ後に攻撃を受けないようにするため
+        if (isDead) return;
         playerHp -= enemyAttackPoint;       
         if (playerHp <= 0)
         {
             isDead = true;
+            // これを追加しないと少しHP残った表示のまま死亡する
+            hpBar.fillAmount = 0;
             StartCoroutine(Dead());
         }
         else
@@ -204,23 +222,28 @@ public class KingPlayer : MonoBehaviour
     }
 
     private IEnumerator Dead()
-    {
-        // ヒットストップ
+    { 
+        // ヒットストップ(死亡演出)
         SoundManager.instance.PlaySE(10);
+        transformCamera.DOShakePosition(0.3f, 0.7f, 50);
+        audioSource.Stop();
         animator.speed = 0.4f;
+        Time.timeScale = 0.5f;
         animator.SetTrigger("Death");
-        playerDeadPanel.DOShakePosition(0.50f, 0.3f, 10, 10);
 
         // ヒットストップ演出待ちの時間
         yield return new WaitForSeconds(0.8f);
+        // 元に戻す
+        animator.speed = 1;
+        Time.timeScale = 1f;
 
-        animator.speed = 1;     
         yield return new WaitForSeconds(0.5f);
         gameController.GameOver();
         yield return new WaitForSeconds(1.0f);
         this.gameObject.SetActive(false);
     }
 
+    // 回復アイテムを取った時の効果
     private void Recovery(float recoveryHp)
     {
         playerHp += recoveryHp;
@@ -231,19 +254,9 @@ public class KingPlayer : MonoBehaviour
     }
 
     // パワーアップアイテムを取った時の効果
-    private void PowerUp(float power)
+    private void PowerUp()
     {      
-        if (powerUpCount == 0)
-        {
-            powerUpTime = powerUpCountTime;
-            isPowerUp = true;
-            chargeAttackDamage = chargeAttackDamage * power;
-            powerUpCount++;
-        }
-        else if (powerUpCount >= 1)
-        {
-            // 効果が続いている状態でPowerUpアイテムを取ったらPowerUpTimeを0にする
-            powerUpTime = powerUpCountTime;
-        }   
+        powerUpTime = powerUpCountTime;
+        isPowerUp = true;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 
-// 画面にあるテキストの文字を変更したい
+/* タイピングの制御を行うスクリプト */
 public class TypingManager : MonoBehaviour
 {
     /*タイピングの機能に関しての変数*/
@@ -53,18 +53,19 @@ public class TypingManager : MonoBehaviour
 
     // しんぶん→"si","n","bu","n"
     // しんぶん→"shi","n","bu","n"
-    // {0,0,1,2,2,3}
-    // {0,1,0,0,1,0}
-    private List<string> _romSliceList = new List<string>();
-    private List<int> _furiCountList = new List<int>();
-    private List<int> _romNumList = new List<int>();
+    // {0,0,1,2,2,3}　_furiCountList
+    // {0,1,0,0,1,0}　_romNumList
+    private List<string> _romSliceList  = new List<string>();
+    private List<int>    _furiCountList = new List<int>();
+    private List<int>    _romNumList    = new List<int>();
 
     // 何文字ひらがなを成功したか
     int hiraCount = 0;
 
-    /*ゲームに関する変数*/
-    private Player player;
-    private KingPlayer kingPlayer;
+    /*Playerに関する変数*/
+    private Player        player;
+    private KingPlayer    kingPlayer;
+    private WizzardPlayer wizzardPlayer;
 
     //　正解数
     public int correctN;
@@ -101,11 +102,14 @@ public class TypingManager : MonoBehaviour
     {
         switch (playerType)
         {
-            case GameManager.PlayerType.PLAYER:
-                player = GameObject.Find("Player").GetComponent<Player>();
+            case GameManager.PlayerType.KNIGHT:
+                player        = GameObject.Find("Player").GetComponent<Player>();
                 break;
             case GameManager.PlayerType.KINGPLAYER:
-                kingPlayer = GameObject.Find("KingPlayer").GetComponent<KingPlayer>();
+                kingPlayer    = GameObject.Find("KingPlayer").GetComponent<KingPlayer>();
+                break;
+            case GameManager.PlayerType.WIZZARDPLAYER:
+                wizzardPlayer = GameObject.Find("WizzardPlayer").GetComponent<WizzardPlayer>();
                 break;
             default:
                 break;
@@ -116,6 +120,8 @@ public class TypingManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) return;
+        // WizzardPlayerのためのスペースとエンターキーは無視
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) return;
 
         // 入力された時に判断する
         if (Input.anyKeyDown && !gameManager.isEnglish && !gameManager.isEnemyDead)
@@ -147,7 +153,7 @@ public class TypingManager : MonoBehaviour
                 if (_aNum >= _aString.Length)
                 {
                     // Playerが攻撃を行う
-                    if (gameManager.playerType == GameManager.PlayerType.PLAYER)
+                    if (gameManager.playerType == GameManager.PlayerType.KNIGHT)
                     {
                         player.Attack();
                     }
@@ -159,7 +165,6 @@ public class TypingManager : MonoBehaviour
             {
                 // nnにしたい
                 _romSliceList[furiCount - 1] = "nn";
-                //_aString = string.Join("", _romSliceList);
                 _aString = string.Join("", GetRomSliceListWithoutSkip());
 
                 ReCreateList(_romSliceList);
@@ -173,7 +178,7 @@ public class TypingManager : MonoBehaviour
                 // 最後の文字に正解したら
                 if (_aNum >= _aString.Length)
                 {
-                    if (gameManager.playerType == GameManager.PlayerType.PLAYER)
+                    if (gameManager.playerType == GameManager.PlayerType.KNIGHT)
                     {
                         player.Attack();
                     }
@@ -237,7 +242,7 @@ public class TypingManager : MonoBehaviour
                 if (_aNum >= _aString.Length)
                 {
                     OutPut();
-                    if (gameManager.playerType == GameManager.PlayerType.PLAYER)
+                    if (gameManager.playerType == GameManager.PlayerType.KNIGHT)
                     {
                         player.Attack();
                     }                 
@@ -312,7 +317,7 @@ public class TypingManager : MonoBehaviour
                     // 最後の文字に正解したら
                     if (_aNum >= _aString.Length)
                     {
-                        if (gameManager.playerType == GameManager.PlayerType.PLAYER)
+                        if (gameManager.playerType == GameManager.PlayerType.KNIGHT)
                         {
                             player.Attack();
                         }
@@ -435,6 +440,7 @@ public class TypingManager : MonoBehaviour
         //Debug.Log(string.Join(",", _romSliceList));
     }
 
+    // 複数入力、イレギュラー入力の際にromSliceListのFuriCountやRomNumを変更する関数
     void ReCreateList(List<string> romList)
     {
         _furiCountList.Clear();
@@ -541,10 +547,15 @@ public class TypingManager : MonoBehaviour
         //　正解率の計算
         CorrectAnswerRate();
 
-        // ChargePlayerのAttackDamageを増やす
+        // KingPlayerのAttackDamageを増やす
         if (gameManager.playerType == GameManager.PlayerType.KINGPLAYER)
         {
-            kingPlayer.chargeAttackDamage++;
+            kingPlayer.IncrementChargeAttackDamage();
+        }
+        // wizzardPlayerのMagicPowerを増やす
+        else if (gameManager.playerType == GameManager.PlayerType.WIZZARDPLAYER)
+        {
+            wizzardPlayer.IncrementMagicPower();
         }
         // 正解した時の処理（やりたいこと）
         _aNum++;
@@ -566,10 +577,15 @@ public class TypingManager : MonoBehaviour
         //　失敗数を増やす（同時押しにも対応させる）
         mistakeN++;
 
-        // missするとchargeAtttackDamageが現象
+        // missするとchargeAtttackDamageが減少
         if (gameManager.playerType == GameManager.PlayerType.KINGPLAYER)
         {
-            kingPlayer.chargeAttackDamage -= 3;
+            kingPlayer.DecrementChargeAttackDamage();
+        }
+        // missするとmagicPowerが減少
+        else if (gameManager.playerType == GameManager.PlayerType.WIZZARDPLAYER)
+        {
+            wizzardPlayer.DecrementMagicPower();
         }
         // 間違えた時にやりたいこと
         aText.text = "<color=#6A6A6A>" + _aString.Substring(0, _aNum) + "</color>"

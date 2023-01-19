@@ -4,32 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+/* Knightに関するStatusや戦闘システム、イベント処理などを記述するクラス */
 public class Player : MonoBehaviour
 {
-    // PlayerModelを取得
-    PlayerModel playerModel;
     // 自身のコンポーネントの変数
-    private Rigidbody2D rb;
     private Animator animator;
     private string[] attackAnim = { "Attack1", "Attack2", "Attack3" };
-
-    // プレイヤーが動いているか
-    public bool playerMove = false;
+    private PlayerMoveController playerMoveController;
 
     // プレイヤーのステータス
-    [SerializeField] private float playerSpeed;
     [SerializeField] float playerAttackDamage;
     public float playerHp;
     [SerializeField] private float maxHp;
     public bool isDead;
 
-    // プレイヤーがパワーアイテムを取った時のイベントの変数
+    // プレイヤーがパワーアイテムを取った時のフラグ
     private bool isPowerUp;
+    // パワーアップの倍率
+    [SerializeField] private float powerUpValue;
+    // パワーアップの秒数
     private float powerUpTime;
-    private int powerUpCount;
-    [SerializeField]private float powerUpCountTime;
+    // パワーアップの設定時間
+    [SerializeField] private float powerUpCountTime;
     public Text powerUpTimeText;
-     
+
 
     // ゲームコントローラーの取得
     public GameController gameController;
@@ -38,7 +36,7 @@ public class Player : MonoBehaviour
     // エネミーを取得
     private GameObject enemy;
     // 倒されたときに画面を揺らすためのカメラ
-    [SerializeField] private Transform playerDeadPanel;
+    [SerializeField] private Transform transformCamera;
 
     //  エフェクトの設定
     /*public GameObject recoverEffect;
@@ -48,23 +46,21 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerHp = maxHp;
+        // 初期値代入
+        playerHp  = maxHp;
         isPowerUp = false;
+        isDead    = false;
 
         // 自身のコンポーネントを取得
-        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        playerModel = new PlayerModel();
-        
         animator.SetBool("Grounded", true);
-        isDead = false;
+        playerMoveController = GetComponent<PlayerMoveController>();
     }
 
     private void Update()
-    { 
+    {
         PowerUpShowText(isPowerUp);
         hpBar.fillAmount = playerHp * 0.01f;
-
     }
 
     // パワーアップアイテムを取った時のテキスト処理
@@ -76,78 +72,31 @@ public class Player : MonoBehaviour
             powerUpTime -= Time.deltaTime;
             if (powerUpTime <= 0)
             {
-                playerAttackDamage = playerAttackDamage / 2.0f;
                 this.isPowerUp = false;
             }
-
         }
         else
         {
             powerUpTimeText.text = "";
             powerUpTime = 0.0f;
-            powerUpCount = 0;
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (playerMove && GameManager.instance.isAdventure)
-        {
-            float horizontalKey = Input.GetAxis("Horizontal");
-            float xSpeed = 0.0f;
-
-            if (horizontalKey > 0)
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-                animator.SetInteger("AnimState", 1);
-                xSpeed = playerSpeed;
-            }
-            else if (horizontalKey < 0)
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-                animator.SetInteger("AnimState", 1);
-                xSpeed = -playerSpeed;
-            }
-            else
-            {
-                animator.SetInteger("AnimState", 0);
-                xSpeed = 0.0f;
-            }
-            rb.velocity = new Vector2(xSpeed, 0.0f);
-
-        }
-        else if (playerMove)
-        {
-            animator.SetInteger("AnimState", 1);
-            rb.velocity = new Vector2(playerSpeed, 0.0f);
-        }        
-    }
-
-    // プレイヤーを停止させる
-    private void StopPlayer()
-    {
-        animator.SetInteger("AnimState", 0);
-        rb.velocity = new Vector2(0.0f, 0.0f);
-    }
-
+    // 別クラスへの移行は現在未定
+    // 現状、GameControllerと結合度が強いため、別クラスへの移行すると複雑化してしまう
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.gameObject.tag)
         {
             case "BattlePoint":
-                BattleMove(collision.gameObject);
+                BattleStartMove(collision.gameObject);
                 break;
             case "BossBattlePoint":
-                BattleMove(collision.gameObject);
+                BattleStartMove(collision.gameObject);
                 break;
             case "GoalPoint":
                 gameController.GameClear();
-                StopPlayer();
-                break;
-            case "BranchPoint":
-                gameController.Branch();
-                enemy = collision.gameObject;
-                StopPlayer();
+                playerMoveController.StopPlayer();
                 break;
             case "RecoveryItems":
                 Recovery(10.0f);
@@ -159,19 +108,20 @@ public class Player : MonoBehaviour
                 SoundManager.instance.PlaySE(2);
                 break;
             case "PowerUpItems":
-                PowerUp(2.0f);
+                PowerUp();
                 collision.gameObject.SetActive(false);
                 SoundManager.instance.PlaySE(3);
                 break;
         }
-        
+
     }
 
-    private void BattleMove(GameObject collision)
+    // バトルする際の初めの処理
+    private void BattleStartMove(GameObject collision)
     {
         gameController.Battle(collision.gameObject.tag);
         enemy = collision.gameObject;
-        StopPlayer();
+        playerMoveController.StopPlayer();
     }
 
     public void Attack()
@@ -185,12 +135,25 @@ public class Player : MonoBehaviour
 
         //audioSource.PlayOneShot(attackSound);
         SoundManager.instance.PlaySE(0);
-        enemy.SendMessage("EnemyDamage", playerAttackDamage);
+        
+        if (isPowerUp)
+        {
+            // PowerUpを取った状態の攻撃力
+            float powerUpAttackDamage = playerAttackDamage * powerUpValue;
+            enemy.SendMessage("EnemyDamage", powerUpAttackDamage);
+        }
+        else
+        {
+            enemy.SendMessage("EnemyDamage", playerAttackDamage);
+        }
+
     }
 
     public void PlayerDamage(int enemyAttackPoint)
     {
-        playerHp -= enemyAttackPoint;       
+        // 死んだ後に攻撃を受けないようにするため
+        if (isDead) return;
+        playerHp -= enemyAttackPoint;
         if (playerHp <= 0)
         {
             isDead = true;
@@ -204,45 +167,40 @@ public class Player : MonoBehaviour
 
     private IEnumerator Dead()
     {
-        // ヒットストップ
+        // ヒットストップ(死亡演出)
         SoundManager.instance.PlaySE(10);
+        transformCamera.DOShakePosition(0.3f, 0.7f, 50);
         animator.speed = 0.4f;
+        Time.timeScale = 0.5f;
         animator.SetTrigger("Death");
-        playerDeadPanel.DOShakePosition(0.50f, 0.3f, 10, 10);
+        
 
         // ヒットストップ演出待ちの時間
         yield return new WaitForSeconds(0.8f);
+        // 元に戻す
+        Time.timeScale = 1f;
+        animator.speed = 1;
 
-        animator.speed = 1;     
         yield return new WaitForSeconds(0.5f);
         gameController.GameOver();
         yield return new WaitForSeconds(1.0f);
         this.gameObject.SetActive(false);
     }
 
+    // 回復アイテムを取った時の効果
     private void Recovery(float recoveryHp)
     {
         playerHp += recoveryHp;
         if (playerHp >= maxHp)
         {
             playerHp = maxHp;
-        }      
+        }
     }
 
     // パワーアップアイテムを取った時の効果
-    private void PowerUp(float power)
-    {      
-        if (powerUpCount == 0)
-        {
-            powerUpTime = powerUpCountTime;
-            isPowerUp = true;
-            playerAttackDamage = playerAttackDamage * power;
-            powerUpCount++;
-        }
-        else if (powerUpCount >= 1)
-        {
-            // 効果が続いている状態でPowerUpアイテムを取ったらPowerUpTimeを0にする
-            powerUpTime = powerUpCountTime;
-        }   
+    private void PowerUp()
+    {
+        powerUpTime = powerUpCountTime;
+        isPowerUp = true;
     }
 }

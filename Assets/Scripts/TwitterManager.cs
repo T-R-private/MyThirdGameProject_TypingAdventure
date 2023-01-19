@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/* Twitterに関する制御を行うスクリプト */
 public class TwitterManager : MonoBehaviour
 {
     public void OnClickTwitterButton()

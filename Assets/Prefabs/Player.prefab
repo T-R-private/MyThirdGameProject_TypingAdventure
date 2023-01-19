@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 5744636517336574173}
   - component: {fileID: 5744636517336574171}
   - component: {fileID: 5744636517336574175}
+  - component: {fileID: 3005670476527906936}
   - component: {fileID: 5744636517336574174}
   - component: {fileID: 6833804275313174958}
   - component: {fileID: 5050255949634552045}
@@ -298,22 +299,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7942f85e5016d4bec9694968a3f0a61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMove: 0
-  playerSpeed: 7
   playerAttackDamage: 10
   playerHp: 100
   maxHp: 100
+  isDead: 0
+  powerUpValue: 2
   powerUpCountTime: 30
   powerUpTimeText: {fileID: 0}
   gameController: {fileID: 0}
   hpBar: {fileID: 2799026285358817946}
-  attackSound: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
-  recoverSound: {fileID: 8300000, guid: 0c008ee3ee72a4362a35be25fa5de043, type: 3}
-  perfectRecoverSound: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
-  powerUpSound: {fileID: 8300000, guid: 35fbad8cdde724f11ba6481f1e64af71, type: 3}
-  recoverEffect: {fileID: 100008, guid: c315731710b634ac1907e6aceca06447, type: 3}
-  perfectRecoverEffect: {fileID: 100012, guid: 4bc8dc28f9ba24e57a0d84aa5db5e48d, type: 3}
-  powerUpEffect: {fileID: 100006, guid: 5c4816ab27403454dab71a44408dff24, type: 3}
+  transformCamera: {fileID: 0}
+--- !u!114 &3005670476527906936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5744636517336574168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d22c0e00be0442f0a79c108e352c740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMove: 0
+  playerSpeed: 7
 --- !u!95 &5744636517336574174
 Animator:
   serializedVersion: 4
