@@ -521,7 +521,8 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: ResultScene
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6975581682216450665, guid: f4a197c693f0b4dcd8a7d81a48a71bca, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f4a197c693f0b4dcd8a7d81a48a71bca, type: 3}
 --- !u!224 &598538326 stripped
 RectTransform:
@@ -554,17 +555,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6975581682216450667, guid: f4a197c693f0b4dcd8a7d81a48a71bca, type: 3}
   m_PrefabInstance: {fileID: 598538325}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &598538332 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6975581682216450665, guid: f4a197c693f0b4dcd8a7d81a48a71bca, type: 3}
-  m_PrefabInstance: {fileID: 598538325}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 598538331}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0027b241795f4faf9cfd05f9c7a6ccf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &598538333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1576,7 +1566,7 @@ PrefabInstance:
     - target: {fileID: 2994080406305658976, guid: 5ddbea3b6daf34cb084d4ef8a79eda32, type: 3}
       propertyPath: typingSoft
       value: 
-      objectReference: {fileID: 598538332}
+      objectReference: {fileID: 0}
     - target: {fileID: 2994080406305658976, guid: 5ddbea3b6daf34cb084d4ef8a79eda32, type: 3}
       propertyPath: battleScreen
       value: 
